@@ -28,6 +28,7 @@
 // Plugins.
 pluginManagement {
     repositories {
+        mavenLocal()
         gradlePluginPortal()
         maven("https://maven.fabricmc.net/") // Architectury Loom. (Fabric dependencies)
         maven("https://maven.architectury.dev/") // Architectury Loom.
@@ -46,7 +47,7 @@ rootProject.name = "In-Game Account Switcher"
 
 // Stonecutter.
 val types = listOf("fabric", "forge", "neoforge")
-val versions = listOf("1.21.11", "1.21.10", "1.21.8", "1.21.5", "1.21.4", "1.21.3", "1.21.1", "1.20.6", "1.20.4", "1.20.2", "1.20.1", "1.19.4", "1.19.2", "1.18.2")
+val versions = listOf("26.1.1", "1.21.11", "1.21.10", "1.21.8", "1.21.5", "1.21.4", "1.21.3", "1.21.1", "1.20.6", "1.20.4", "1.20.2", "1.20.1", "1.19.4", "1.19.2", "1.18.2")
 val ignored = mutableListOf<String>()
 val onlyId = System.getProperty("ru.vidtu.ias.only")
 val latestId = "${versions[0]}-${types[0]}"

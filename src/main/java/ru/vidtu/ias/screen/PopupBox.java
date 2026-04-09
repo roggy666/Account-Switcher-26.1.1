@@ -20,7 +20,10 @@
 package ru.vidtu.ias.screen;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else
+/*import net.minecraft.client.gui.GuiGraphics;*/
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -63,8 +66,8 @@ final class PopupBox extends EditBox {
     }
 
     @Override
-    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        // Render background.
+    //? if >=26.1 {
+    public void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         int x = this.getX();
         int y = this.getY();
         int width = this.getWidth();
@@ -74,10 +77,22 @@ final class PopupBox extends EditBox {
         graphics.fill(x + 1, y + height - 1, x + width - 1, y + height, 0xFF_FF_FF_FF);
         graphics.fill(x, y + 1, x + 1, y + height - 1, 0xFF_FF_FF_FF);
         graphics.fill(x + width - 1, y + 1, x + width, y + height - 1, 0xFF_FF_FF_FF);
-
-        // Render other.
+        super.extractWidgetRenderState(graphics, mouseX, mouseY, delta);
+    }
+    //?} else {
+    /*public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        int x = this.getX();
+        int y = this.getY();
+        int width = this.getWidth();
+        int height = this.getHeight();
+        graphics.fill(x + 1, y + 1, x + width - 1, y + height - 1, 0xFF_00_00_00);
+        graphics.fill(x + 1, y, x + width - 1, y + 1, 0xFF_FF_FF_FF);
+        graphics.fill(x + 1, y + height - 1, x + width - 1, y + height, 0xFF_FF_FF_FF);
+        graphics.fill(x, y + 1, x + 1, y + height - 1, 0xFF_FF_FF_FF);
+        graphics.fill(x + width - 1, y + 1, x + width, y + height - 1, 0xFF_FF_FF_FF);
         super.renderWidget(graphics, mouseX, mouseY, delta);
     }
+    *///?}
 
     @Override
     //? if >= 1.21.10 {

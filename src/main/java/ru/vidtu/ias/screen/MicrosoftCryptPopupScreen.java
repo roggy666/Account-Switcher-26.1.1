@@ -19,7 +19,10 @@
 
 package ru.vidtu.ias.screen;
 
-import net.minecraft.client.gui.GuiGraphics;
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else
+/*import net.minecraft.client.gui.GuiGraphics;*/
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
@@ -116,38 +119,53 @@ final class MicrosoftCryptPopupScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        // Bruh.
+    //? if >=26.1 {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         assert this.minecraft != null;
         Matrix3x2fStack pose = graphics.pose();
-
-        // Render background and widgets.
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
+        pose.pushMatrix();
+        pose.scale(2.0F, 2.0F);
+        graphics.centeredText(this.font, this.title, this.width / 4, this.height / 4 - 79 / 2, 0xFF_FF_FF_FF);
+        pose.popMatrix();
+    }
+    //?} else {
+    /*public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        assert this.minecraft != null;
+        Matrix3x2fStack pose = graphics.pose();
         super.render(graphics, mouseX, mouseY, delta);
-
-        // Render the title.
         pose.pushMatrix();
         pose.scale(2.0F, 2.0F);
         graphics.drawCenteredString(this.font, this.title, this.width / 4, this.height / 4 - 79 / 2, 0xFF_FF_FF_FF);
         pose.popMatrix();
     }
+    *///?}
 
     @Override
-    public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        // Bruh.
+    //? if >=26.1 {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         assert this.minecraft != null;
-
-        // Render transparent background if parent exists.
         if (this.parent != null) {
-            // Render gradient.
+            this.parent.extractRenderStateWithTooltipAndSubtitles(graphics, 0, 0, delta);
+            graphics.nextStratum();
+            graphics.fill(0, 0, this.width, this.height, 0x80_00_00_00);
+        } else {
+            super.extractBackground(graphics, mouseX, mouseY, delta);
+        }
+    //?} else {
+    /*public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        assert this.minecraft != null;
+        if (this.parent != null) {
             //? if >= 1.21.10 {
             this.parent.renderWithTooltipAndSubtitles(graphics, 0, 0, delta);
             //?} else
-            /*this.parent.renderWithTooltip(graphics, 0, 0, delta);*/
+            /^this.parent.renderWithTooltip(graphics, 0, 0, delta);^/
             graphics.nextStratum();
             graphics.fill(0, 0, this.width, this.height, 0x80_00_00_00);
         } else {
             super.renderBackground(graphics, mouseX, mouseY, delta);
         }
+    *///?}
 
         // Render "form".
         int centerX = this.width / 2;

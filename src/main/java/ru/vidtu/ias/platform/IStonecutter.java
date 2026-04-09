@@ -21,7 +21,10 @@
 
 package ru.vidtu.ias.platform;
 
-import net.minecraft.client.gui.GuiGraphics;
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else
+/*import net.minecraft.client.gui.GuiGraphics;*/
 import net.minecraft.client.gui.components.MultiLineLabel;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -115,7 +118,10 @@ public final class IStonecutter {
         /*return net.minecraft.Util.getMillis();*/
     }
 
-    public static void renderMultilineLabelCentered(MultiLineLabel label, GuiGraphics graphics, int x, int y) {
+    //? if >=26.1 {
+    public static void renderMultilineLabelCentered(MultiLineLabel label, GuiGraphicsExtractor graphics, int x, int y) {
+    //?} else
+    /*public static void renderMultilineLabelCentered(MultiLineLabel label, GuiGraphics graphics, int x, int y) {*/
         //? if >=1.21.11 {
         label.visitLines(net.minecraft.client.gui.TextAlignment.CENTER, x, y, 9, graphics.textRenderer());
         //?} elif >=1.21.10 {
